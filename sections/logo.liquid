@@ -1,0 +1,109 @@
+    {{ 'section.css' | asset_url | stylesheet_tag }}
+
+
+<div class="logolists logo-list-{{ section.id }}">
+  <div class="logolist container">
+    <div class="logolist-heading">
+      {% if section.settings.heading_text != blank %}
+      <h6 class="heading center">{{ section.settings.heading_text }}</h6>
+      {% endif %}
+    </div>
+     {% if section.blocks.size > 0 %}
+      <div class="flexbox">
+        {% for block in section.blocks %}
+          <div class="logolist-item">
+             <div class="logolist-item__image">
+                <a href="{{ block.settings.image_link }}" class="logo-bar__link">
+                  {% if block.settings.image != blank %}
+                  {% assign mobile_image = block.settings.image_mobile | default: block.settings.image %}
+                  {% render 'image', mobileSrc: mobile_image, desktopSrc: block.settings.image %}
+                  {% endif %}
+                </a>
+             </div>
+            <div class="logolist-item__text--container">
+            {% if block.settings.logo_text != blank %}
+              <div class="logolist-item__text" style="color:white;">{{ block.settings.logo_text }}</div>
+            {% endif %}
+            </div>
+        </div>
+       {% endfor %}
+     </div>
+  {%- endif -%}
+  </div>
+</div>
+
+{% style %}
+  .logo-list-{{ section.id }}{
+    background-color: {{ section.settings.section_background }}
+  }
+  @media only screen and (min-width: 990px){
+    .logolist-item__text--container{
+    width: 300px;
+    text-align:center;
+      font-size:20px;
+  }
+    .flexbox{
+      justify-content:space-around;
+    }
+  }
+  
+{% endstyle %}
+
+{% schema %}
+  {
+    "name": "logo list",
+    "tag":"section",
+    "class":"section",
+    "settings":[
+      {
+        "type": "color",
+        "id": "section_background",
+        "label": "Section background",
+        "default": "#C5C5C5"
+      },
+      {
+        "type": "text",
+        "id": "heading_text",
+        "label":"Heading Text",
+        "default": "Logo List"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "logo-list",
+ 		"name": "image logo",
+        "limit":6,
+ 		"settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image",
+            "info": "1200 x 500px .jpg recommended"
+          },
+          {
+            "type": "image_picker",
+             "id": "image_mobile",
+             "label": "Image (Mobile)",
+            "info": "600 x 800px .jpg recommended"
+          },
+          {
+            "type":"url",
+            "id":"image_link",
+            "label":"Image Link"
+          },
+          {
+            "type":"richtext",
+            "id":"logo_text",
+            "label":"Logo text",
+            "default":"<p>“Gorgeous essentials that don’t cost a fortune. No one does it better than Cloth!”</p>"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "logo list"
+      }
+    ]
+  }
+{% endschema %}

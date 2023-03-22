@@ -1,0 +1,28 @@
+.container {
+  margin: 0 auto;
+  padding: 0 15px;
+  max-width: 1400px;
+}
+@media only screen and (min-width: 990px) {
+  .container {
+    padding: 0 100px;
+  }
+}
+
+.logo-list__image img{
+  height:100px;
+  width:100px;
+}
+
+.flexbox{
+  display:flex;
+  flex-wrap:wrap;
+  margin:0 -10px;
+  align-items:center;
+}
+@media only screen and (min-width: 990px){
+  .flexbox{
+  display:flex;
+  flex-wrap:nowrap;
+}
+}
